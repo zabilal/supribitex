@@ -1,0 +1,41 @@
+import 'package:flutter/material.dart';
+import 'package:supribitex/navigationUtils.dart';
+import 'package:supribitex/routes.dart';
+import 'package:supribitex/screens/splash/components/splash_content.dart';
+import 'package:supribitex/screens/splash/splash_screen.dart';
+import 'package:splashscreen/splashscreen.dart';
+import 'package:get_storage/get_storage.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
+
+final box = GetStorage();
+
+Future<void> main() async {
+  await GetStorage.init();
+  runApp(MyApp());
+}
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => new _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  @override
+  Widget build(BuildContext context) {    
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: SplashScreen(
+          seconds: 3,
+          navigateAfterSeconds: SplashScreens(),
+          imageBackground: AssetImage("assets/images/Supribtex2.jpg"),
+          image: Image.asset("assets/images/supri.png"),
+          backgroundColor: Colors.white,
+          styleTextUnderTheLoader: new TextStyle(),
+          photoSize: 100.0,
+          onClick: () => print("Flutter Egypt"),
+          loaderColor: Colors.blue[900]),
+      routes: routes,
+    );
+  }
+}
