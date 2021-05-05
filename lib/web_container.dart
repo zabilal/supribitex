@@ -13,7 +13,7 @@ class _WebContainer extends State<WebContainer> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: WebView(
-        initialUrl: 'https://==++++',
+        initialUrl: 'https://mobile.supribitex.app',
         javascriptMode: JavascriptMode.unrestricted,
       ),
     );

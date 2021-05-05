@@ -19,7 +19,7 @@ class _BodyState extends State<Body> {
   List<Map<String, String>> splashData = [
     {
       "text": "Buy and Sell Bitcoin, with ease",
-      "image": "assets/images/bitcoin.jpg"
+      "image": "assets/images/exchange.png"
     },
     {
       "text": "Buy and Sell your Giftcards \nwithout Stress",
