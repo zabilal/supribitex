@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:supribitex/navigationUtils.dart';
 import 'package:supribitex/routes.dart';
-import 'package:supribitex/screens/splash/components/splash_content.dart';
-import 'package:supribitex/screens/splash/splash_screen.dart';
+import 'package:supribitex/screens/splash/components/onboarding_content.dart';
+import 'package:supribitex/screens/splash/onboarding_screen.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:get_storage/get_storage.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
@@ -27,7 +27,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       home: SplashScreen(
           seconds: 3,
-          navigateAfterSeconds: SplashScreens(),
+          navigateAfterSeconds: OnboardingScreen(),
           imageBackground: AssetImage("assets/images/Supribtex2.jpg"),
           image: Image.asset("assets/images/supri.png"),
           backgroundColor: Colors.white,
