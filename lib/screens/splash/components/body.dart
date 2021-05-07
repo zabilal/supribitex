@@ -13,17 +13,17 @@ import '../../../components/default_button.dart';
   {
     "text": "Buy and Sell Bitcoin, with ease",
     // "image": "assets/images/exchange.png"
-    "image": "assets/images/1.jpg"
+    "image": "assets/images/S1.jpg"
   },
   {
     "text": "Buy and Sell your Giftcards \nwithout Stress",
     // "image": "assets/images/Gift-Cards-Selection.png"
-    "image": "assets/images/2.jpg"
+    "image": "assets/images/S2.jpg"
   },
   {
     "text": "Airtime recharge and swapping \nat your fingertips",
     // "image": "assets/images/vtu.jpg"
-    "image": "assets/images/3.jpg"
+    "image": "assets/images/S3.jpg"
   },
 ];
 
@@ -82,6 +82,8 @@ class _BodyState extends State<Body> {
         itemBuilder: (context, index) => OnboardingContent(
           image: splashData[index]["image"],
           text: splashData[index]['text'],
+          index: index,
+          currentPage: currentPage
         ),
       // ),
     );

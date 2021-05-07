@@ -14,8 +14,6 @@ class WebContainer extends StatefulWidget {
 }
 
 class _WebContainer extends State<WebContainer> {
-
-
   getErrorPage(String url) {
     String img = "./assets/images/refresh.png";
 
@@ -31,10 +29,14 @@ class _WebContainer extends State<WebContainer> {
                 background-color: aqua;
             }
 
-            div {
-                position: relative;
-                height: 800px;
-
+            
+            .container {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                -moz-transform: translateX(-50%) translateY(-50%);
+                -webkit-transform: translateX(-50%) translateY(-50%);
+                transform: translateX(-50%) translateY(-50%);
             }
 
             img p {
@@ -46,10 +48,10 @@ class _WebContainer extends State<WebContainer> {
         </style>
     </head>
     <body>
-        <div>
-            <p>Click here to Refresh the App</p>
+        <div class="container">
             <a href=$url rel="noopener noreferrer">
-                <img src=$img height="100px" width="100px">
+                <span>NO Internet, Click to Refresh</span>
+                <!--<img src=$img height="100px" width="100px"> -->
             </a>        
         </div>
     </body>
@@ -79,7 +81,7 @@ class _WebContainer extends State<WebContainer> {
   @override
   void initState() {
     super.initState();
-    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+    // if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
 
     connectivitySubscription = Connectivity()
         .onConnectivityChanged
@@ -91,7 +93,7 @@ class _WebContainer extends State<WebContainer> {
         //     builder: (BuildContext _) => Container(
         //           child: Text(connectionStatus.toString()),
         //         )));
-      } else if (_previousResult == ConnectivityResult.none) {
+      } else if (_previousResult != ConnectivityResult.none) {
         connectionStatus = true;
         // nav.currentState.push(MaterialPageRoute(
         //     builder: (BuildContext _) => Container(
@@ -134,26 +136,40 @@ class _WebContainer extends State<WebContainer> {
           onWebViewCreated: (WebViewController webViewController) {
             _controllerCompleter.future.then((value) => _controller = value);
             _controllerCompleter.complete(webViewController);
-            
+           
+           
+            // if (_previousResult != ConnectivityResult.none) {
+            if (connectionStatus == true) {
+              webViewController.loadUrl("https://mobile.supribitex.app/");
+            } else {
+              webViewController
+                  .loadUrl(getErrorPage("https://mobile.supribitex.app/"));
+
+              // webViewController.loadUrl("https://mobile.supribitex.app/");
+            }
+
+
           },
           onWebResourceError: (failed) async {
             String url = await this._controller.currentUrl();
             this._controller.loadUrl(
                 Uri.dataFromString(getErrorPage(url), mimeType: 'text/html')
                     .toString());
-            this._controller.reload();
+            this._controller.loadUrl(url);
           },
           javascriptMode: JavascriptMode.unrestricted,
-          initialUrl: "https://mobile.supribitex.app",
+          // initialUrl: "https://mobile.supribitex.app",
           gestureNavigationEnabled: true,
           navigationDelegate: (NavigationRequest request) {
             if (connectionStatus == true) {
               print('allowing navigation to $request');
               return NavigationDecision.navigate;
-            } else {
-              print('blocking navigation to $request');
-              return NavigationDecision.prevent;
             }
+            // else {
+            //   print('blocking navigation to $request');
+            //   return NavigationDecision.prevent;
+            // }
+            return NavigationDecision.navigate;
           },
         )),
       ),
