@@ -47,6 +47,7 @@ class _OnboardingContentState extends State<OnboardingContent> {
           Text(
             widget.text,
             textAlign: TextAlign.center,
+            style: widget.currentPage == 0 ? TextStyle(color: Colors.white) : TextStyle(color: Colors.black),
           ),
           Spacer(flex: 2),
           Expanded(

@@ -155,20 +155,24 @@ class _WebContainer extends State<WebContainer> {
             this._controller.loadUrl(
                 Uri.dataFromString(getErrorPage(url), mimeType: 'text/html')
                     .toString());
-            this._controller.loadUrl(url);
+            // this._controller.loadUrl(url);
           },
           javascriptMode: JavascriptMode.unrestricted,
           // initialUrl: "https://mobile.supribitex.app",
           gestureNavigationEnabled: true,
-          navigationDelegate: (NavigationRequest request) {
+          navigationDelegate: (NavigationRequest request) async {
             if (connectionStatus == true) {
               print('allowing navigation to $request');
               return NavigationDecision.navigate;
             }
-            // else {
-            //   print('blocking navigation to $request');
-            //   return NavigationDecision.prevent;
-            // }
+            else {
+              print('blocking navigation to $request');
+              String url = await this._controller.currentUrl();
+              this._controller.loadUrl(
+                  Uri.dataFromString(getErrorPage(url), mimeType: 'text/html')
+                      .toString());
+              // return NavigationDecision.prevent;
+            }
             return NavigationDecision.navigate;
           },
         )),
