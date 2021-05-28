@@ -2,6 +2,9 @@
     package="com.app.supribitex">
 
     <uses-permission android:name="android.permission.INTERNET" />
+     <android:uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
     
    <application
         android:label="supribitex"
