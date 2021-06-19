@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:get/get.dart';
+// import 'package:webview_flutter/webview_flutter.dart';
 
 class WebContainer extends StatefulWidget {
   static String routeName = "/web";
@@ -57,7 +60,6 @@ class _WebContainer extends State<WebContainer> {
                 background-color: aqua;
             }
 
-            
             .container {
                 position: absolute;
                 top: 50%;
@@ -81,70 +83,77 @@ class _WebContainer extends State<WebContainer> {
             <a href=$url rel="noopener noreferrer">
                 <span>NO Internet, Click to Refresh</span>
                 <!--<img src=$img height="100px" width="100px"> -->
-            </a>        
+            </a>
         </div>
     </body>
     </html>""";
   }
 
+  StreamSubscription connectivitySubscription;
+
+  ConnectivityResult _previousResult;
+  bool connectionStatus = false;
+
   @override
   void initState() {
     super.initState();
 
-    flutterWebViewPlugin.close();
-
-    // Add a listener to on destroy WebView, so you can make came actions.
-    _onDestroy = flutterWebViewPlugin.onDestroy.listen((_) {
-      if (mounted) {
-        // Actions like show a info toast.
-        _scaffoldKey.currentState.showSnackBar(
-            const SnackBar(content: const Text('Webview Destroyed')));
+    connectivitySubscription = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult connectivityResult) {
+      if (connectivityResult == ConnectivityResult.none) {
+        //no connection
+        connectionStatus = false;
+        print("Connection Status =================== : $connectionStatus");
+      } else if (_previousResult != ConnectivityResult.none) {
+        connectionStatus = true;
+        print("Connection Status =================== : $connectionStatus");
       }
+
+      _previousResult = connectivityResult;
     });
 
-    // Add a listener to on url changed
+    // // Add a listener to on url changed
     _onUrlChanged = flutterWebViewPlugin.onUrlChanged.listen((String url) {
       if (mounted) {
-        print('============================= onUrlChanged: $url');
-        setState(() {
-          _history.add('onUrlChanged: $url');
-        });
+        print(
+            'New Navigation has Occurred : ============================= onUrlChanged: $url');
+
+        if (connectionStatus) {
+          // flutterWebViewPlugin.reloadURrl(url);
+        } else {
+          // flutterWebViewPlugin.reloadUrl(
+          //     Uri.dataFromString(getErrorPage(url), mimeType: 'text/html')
+          //         .toString());
+          flutterWebViewPlugin.stopLoading();
+          
+          Get.
+
+          Future.delayed(Duration(seconds: 2), () {
+            flutterWebViewPlugin.reloadUrl(url);
+          });
+        }
       }
     });
 
-    _onProgressChanged =
-        flutterWebViewPlugin.onProgressChanged.listen((double progress) {
-      if (mounted) {
-        print('=========================== onProgressChanged: $progress');
-        setState(() {
-          _history.add('onProgressChanged: $progress');
-        });
-      }
-    });
+//     _onHttpError =
+//         flutterWebViewPlugin.onHttpError.listen((WebViewHttpError error) {
+//       // if (mounted) {
+//         print(" ============== WEB ERROR ENCOUNTERED  ====================");
 
-    _onStateChanged =
-        flutterWebViewPlugin.onStateChanged.listen((WebViewStateChanged state) {
-      if (mounted) {
-        print('=============== onStateChanged: ${state.type} ${state.url}');
-        setState(() {
-          _history.add('onStateChanged: ${state.type} ${state.url}');
-        });
-      }
-    });
+//         flutterWebViewPlugin.reloadUrl(
+//             Uri.dataFromString(getErrorPage(error.url), mimeType: 'text/html')
+//                 .toString());
 
-    _onHttpError =
-        flutterWebViewPlugin.onHttpError.listen((WebViewHttpError error) {
-      if (mounted) {
-        print(" ============== WEB ERROR ENCOUNTERED ====================");
-        flutterWebViewPlugin.reloadUrl(
-            Uri.dataFromString(getErrorPage(error.url), mimeType: 'text/html')
-                .toString());
-        // flutterWebViewPlugin.reloadUrl(error.url);
-        setState(() {
-          _history.add('onHttpError: ${error.code} ${error.url}');
-        });
-      }
-    });
+//         Future.delayed(Duration(seconds: 2), () {
+//           flutterWebViewPlugin.reloadUrl(error.url);
+//         });
+// //
+//         // setState(() {
+//         //   _history.add('onHttpError: ${error.code} ${error.url}');
+//         // });
+//       // }
+//     });
   }
 
   @override
@@ -156,32 +165,50 @@ class _WebContainer extends State<WebContainer> {
     _onHttpError.cancel();
     _onProgressChanged.cancel();
 
-    flutterWebViewPlugin.dispose();
+    connectivitySubscription.cancel();
 
-    super.dispose();
+    flutterWebViewPlugin.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter WebView Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      debugShowCheckedModeBanner: false,
       routes: {
         '/': (_) {
-          return WebviewScaffold(
-            url: selectedUrl,
-            javascriptChannels: jsChannels,
-            mediaPlaybackRequiresUserGesture: false,
-            withZoom: true,
-            withLocalStorage: true,
-            withLocalUrl: true,
-            hidden: true,
-            initialChild: Container(
-              color: Colors.blue,
-              child: const Center(
-                child: Text('Supribitex.....loading', style: TextStyle(fontSize: 30),),
+          return SafeArea(
+            child: WebviewScaffold(
+              key: _scaffoldKey,
+              enableAppScheme: true,
+              geolocationEnabled: true,
+              ignoreSSLErrors: true,
+              url: selectedUrl,
+              javascriptChannels: jsChannels,
+              mediaPlaybackRequiresUserGesture: false,
+              withLocalStorage: true,
+              withLocalUrl: true,
+              initialChild: Container(
+                color: Colors.blue,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset("assets/images/supri_logo.jpg"),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      Text(
+                        'Supribitex',
+                        style: TextStyle(fontSize: 30, color: Colors.white),
+                      ),
+                      Text(
+                        'loading',
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           );
@@ -189,6 +216,8 @@ class _WebContainer extends State<WebContainer> {
       },
     );
   }
+
+  // --------------------------------------------------------------------------------------------------------
 
   // getErrorPage(String url) {
   //   String img = "./assets/images/refresh.png";
@@ -313,7 +342,6 @@ class _WebContainer extends State<WebContainer> {
 
   //             // webViewController.loadUrl("https://mobile.supribitex.app/");
   //           }
-
   //         },
   //         onWebResourceError: (failed) async {
   //           String url = await this._controller.currentUrl();
@@ -329,8 +357,7 @@ class _WebContainer extends State<WebContainer> {
   //           if (connectionStatus == true) {
   //             print('allowing navigation to $request');
   //             return NavigationDecision.navigate;
-  //           }
-  //           else {
+  //           } else {
   //             print('blocking navigation to $request');
   //             String url = await this._controller.currentUrl();
   //             this._controller.loadUrl(
@@ -341,8 +368,7 @@ class _WebContainer extends State<WebContainer> {
   //           return NavigationDecision.navigate;
   //         },
   //       )),
-  //     ),
-  //   );
+  //   ),
+  // );
   // }
-
 }

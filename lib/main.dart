@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:supribitex/navigationUtils.dart';
 import 'package:supribitex/routes.dart';
 import 'package:supribitex/screens/splash/components/onboarding_content.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: SplashScreen(
           seconds: 3,
