@@ -7,22 +7,17 @@ import 'package:supribitex/size_config.dart';
 import 'onboarding_content.dart';
 import '../../../components/default_button.dart';
 
-// import 'package:shared_preferences/shared_preferences.dart';
-
 List<Map<String, String>> splashData = [
   {
     "text": "Buy and Sell Bitcoin, with ease",
-    // "image": "assets/images/exchange.png"
     "image": "assets/images/S1.jpg"
   },
   {
     "text": "Buy and Sell your Giftcards \nwithout Stress",
-    // "image": "assets/images/Gift-Cards-Selection.png"
     "image": "assets/images/S2.jpg"
   },
   {
     "text": "Airtime recharge and swapping \nat your fingertips",
-    // "image": "assets/images/vtu.jpg"
     "image": "assets/images/S3.jpg"
   },
 ];
