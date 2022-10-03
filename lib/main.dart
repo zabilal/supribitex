@@ -6,6 +6,7 @@ import 'package:supribitex/screens/splash/components/onboarding_content.dart';
 import 'package:supribitex/screens/splash/onboarding_screen.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:supribitex/web_container.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
 final box = GetStorage();
@@ -23,11 +24,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+
+    bool val = box.read("onboard") ?? false;
+
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: SplashScreen(
           seconds: 3,
-          navigateAfterSeconds: OnboardingScreen(),
+          navigateAfterSeconds: val ? WebContainer() : OnboardingScreen(),
           imageBackground: AssetImage("assets/images/Supribtex2.jpg"),
           image: Image.asset("assets/images/supri.png"),
           backgroundColor: Colors.white,

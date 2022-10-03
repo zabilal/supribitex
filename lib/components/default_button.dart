@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
 import '../size_config.dart';
 
 class DefaultButton extends StatelessWidget {
-  const DefaultButton({
+  DefaultButton({
     Key key,
     this.text,
     this.press,
@@ -17,9 +16,8 @@ class DefaultButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       height: getProportionateScreenHeight(56),
-      child: FlatButton(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        color: Colors.cyan,
+      child: TextButton(
+        style: flatButtonStyle,
         onPressed: press,
         child: Text(
           text,
@@ -31,4 +29,13 @@ class DefaultButton extends StatelessWidget {
       ),
     );
   }
+
+  final ButtonStyle flatButtonStyle = TextButton.styleFrom(
+    foregroundColor: Colors.black87,
+    minimumSize: Size(88, 36),
+    padding: EdgeInsets.symmetric(horizontal: 16.0),
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(2.0)),
+    ),
+  );
 }

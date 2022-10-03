@@ -32,13 +32,13 @@ dependencies:
   flutter_svg: ^0.19.1 # help us to use SVG in our app
   # provider: ^4.3.1 # for State management
   splashscreen: ^1.2.0
-  webview_flutter: ^2.0.2
+  webview_flutter: ^3.0.4
   connectivity: ^3.0.3
   flushbar: ^1.5.0
   get_storage: 2.0.2
   get: 4.1.4
 
-  flutter_webview_plugin: ^0.3.11
+  # flutter_webview_plugin: ^0.3.11
   
 
 dev_dependencies:

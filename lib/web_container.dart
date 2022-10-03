@@ -2,7 +2,8 @@ import 'dart:async';
 import 'dart:core';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+// import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class WebContainer extends StatefulWidget {
   static String routeName = "/web";
@@ -12,7 +13,7 @@ class WebContainer extends StatefulWidget {
 }
 
 class _WebContainer extends State<WebContainer> {
-  final flutterWebViewPlugin = FlutterWebviewPlugin();
+  // final flutterWebViewPlugin = FlutterWebviewPlugin();
 
   final kAndroidUserAgent =
       'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Mobile Safari/537.36';
@@ -32,9 +33,9 @@ class _WebContainer extends State<WebContainer> {
 
   StreamSubscription<String> _onUrlChanged;
 
-  StreamSubscription<WebViewStateChanged> _onStateChanged;
+  // StreamSubscription<WebViewStateChanged> _onStateChanged;
 
-  StreamSubscription<WebViewHttpError> _onHttpError;
+  // StreamSubscription<WebViewHttpError> _onHttpError;
 
   StreamSubscription<double> _onProgressChanged;
 
@@ -111,25 +112,25 @@ class _WebContainer extends State<WebContainer> {
     });
 
     // // Add a listener to on url changed
-    _onUrlChanged = flutterWebViewPlugin.onUrlChanged.listen((String url) {
-      if (mounted) {
-        print(
-            'New Navigation has Occurred : ============================= onUrlChanged: $url');
+    // _onUrlChanged = flutterWebViewPlugin.onUrlChanged.listen((String url) {
+    //   if (mounted) {
+    //     print(
+    //         'New Navigation has Occurred : ============================= onUrlChanged: $url');
 
-        if (!connectionStatus) {
-          // flutterWebViewPlugin.reloadURrl(url);
-        // } else {
-          // flutterWebViewPlugin.reloadUrl(
-          //     Uri.dataFromString(getErrorPage(url), mimeType: 'text/html')
-          //         .toString());
-          flutterWebViewPlugin.stopLoading();
+    //     if (!connectionStatus) {
+    //       // flutterWebViewPlugin.reloadURrl(url);
+    //     // } else {
+    //       // flutterWebViewPlugin.reloadUrl(
+    //       //     Uri.dataFromString(getErrorPage(url), mimeType: 'text/html')
+    //       //         .toString());
+    //       flutterWebViewPlugin.stopLoading();
 
-          Future.delayed(Duration(seconds: 2), () {
-            flutterWebViewPlugin.reloadUrl(url);
-          });
-        }
-      }
-    });
+    //       Future.delayed(Duration(seconds: 2), () {
+    //         flutterWebViewPlugin.reloadUrl(url);
+    //       });
+    //     }
+    //   }
+    // });
   }
 
   @override
@@ -137,13 +138,13 @@ class _WebContainer extends State<WebContainer> {
     // Every listener should be canceled, the same should be done with this stream.
     _onDestroy.cancel();
     _onUrlChanged.cancel();
-    _onStateChanged.cancel();
-    _onHttpError.cancel();
-    _onProgressChanged.cancel();
+    // _onStateChanged.cancel();
+    // _onHttpError.cancel();
+    // _onProgressChanged.cancel();
 
-    connectivitySubscription.cancel();
+    // connectivitySubscription.cancel();
 
-    flutterWebViewPlugin.dispose();
+    // flutterWebViewPlugin.dispose();
   }
 
   @override
@@ -153,40 +154,45 @@ class _WebContainer extends State<WebContainer> {
       routes: {
         '/': (_) {
           return SafeArea(
-            child: WebviewScaffold(
+            // child: WebviewScaffold(
+            //   key: _scaffoldKey,
+            //   enableAppScheme: true,
+            //   geolocationEnabled: true,
+            //   ignoreSSLErrors: true,
+            //   url: selectedUrl,
+            //   javascriptChannels: jsChannels,
+            //   mediaPlaybackRequiresUserGesture: false,
+            //   withLocalStorage: true,
+            //   // withLocalUrl: true,
+            //   resizeToAvoidBottomInset: true,
+            //   initialChild: Container(
+            //     color: Colors.blue,
+            //     child: Center(
+            //       child: Column(
+            //         mainAxisAlignment: MainAxisAlignment.center,
+            //         crossAxisAlignment: CrossAxisAlignment.center,
+            //         children: [
+            //           Image.asset("assets/images/supri_logo.jpg"),
+            //           SizedBox(
+            //             height: 16,
+            //           ),
+            //           Text(
+            //             'Supribitex',
+            //             style: TextStyle(fontSize: 30, color: Colors.white),
+            //           ),
+            //           Text(
+            //             'loading',
+            //             style: TextStyle(fontSize: 20, color: Colors.white),
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            child: WebView(
               key: _scaffoldKey,
-              enableAppScheme: true,
-              geolocationEnabled: true,
-              ignoreSSLErrors: true,
-              url: selectedUrl,
+              initialUrl: selectedUrl,
               javascriptChannels: jsChannels,
-              mediaPlaybackRequiresUserGesture: false,
-              withLocalStorage: true,
-              withLocalUrl: true,
-              resizeToAvoidBottomInset: true,
-              initialChild: Container(
-                color: Colors.blue,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset("assets/images/supri_logo.jpg"),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      Text(
-                        'Supribitex',
-                        style: TextStyle(fontSize: 30, color: Colors.white),
-                      ),
-                      Text(
-                        'loading',
-                        style: TextStyle(fontSize: 20, color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
             ),
           );
         },

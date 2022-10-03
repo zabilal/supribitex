@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:supribitex/constants.dart';
 import 'package:supribitex/main.dart';
-import 'package:supribitex/size_config.dart';
 
 // This is the best practice
 import 'onboarding_content.dart';
-import '../../../components/default_button.dart';
 
 List<Map<String, String>> splashData = [
   {
@@ -33,13 +30,6 @@ class _BodyState extends State<Body> {
   @override
   void initState() {
     super.initState();
-
-    bool val = box.read("onboard") ?? false;
-    print('bljhfvdsjfdsfjhdsu $val');
-
-    if (val) {
-      Navigator.pushNamed(context, "/web");
-    }
   }
 
   @override
