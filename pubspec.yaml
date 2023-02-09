@@ -1,0 +1,38 @@
+name: supribitex
+version: 1.0.0+1
+publish_to: none
+description: A new Flutter project.
+environment: 
+  sdk: '>=2.18.6 <3.0.0'
+
+dependencies: 
+  cupertino_icons: ^1.0.2
+  get: 4.6.5
+  onboarding: 3.1.0
+  shared_preferences: any
+  achievement_view: any
+  internet_connection_checker: any
+  animate_do: any
+  iconsax: any
+  url_launcher: any
+  open_whatsapp: any
+  connectivity_plus: any
+  ionicons: 0.2.1
+  flutter: 
+    sdk: flutter
+
+dev_dependencies: 
+  flutter_lints: 2.0.1
+  flutter_test: 
+    sdk: flutter
+
+flutter: 
+  assets: 
+    - assets/images/
+  fonts: 
+    - family: Mulish
+      fonts: 
+        - asset: assets/fonts/Mulish-Light.ttf
+        - asset: assets/fonts/Mulish-SemiBold.ttf
+  uses-material-design: true
+
