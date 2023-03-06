@@ -98,7 +98,7 @@ class LoginController extends GetxController {
         printInfo(info: 'Response from registeration :: ${response.body}');
         if (response.body["status"] == "200") {
           printInfo(info: 'We are good');
-          Get.to(() => const HomeView());
+          Get.to(() => HomeView());
         }
       } catch (e) {
         printInfo(info: 'Hello an error has here');

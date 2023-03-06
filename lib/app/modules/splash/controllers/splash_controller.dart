@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
+import 'package:supribitex/app/modules/home/views/home_view.dart';
 
 import '../../onboarding/views/onboarding_view.dart';
 
@@ -12,7 +13,7 @@ class SplashController extends GetxController {
   }
 
   changeScreen() async {
-    Get.to(() => OnboardingView());
+    Get.to(() => HomeView());
   }
 
   @override

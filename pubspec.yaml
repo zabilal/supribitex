@@ -20,6 +20,8 @@ dependencies:
   ionicons: 0.2.1
   flutter: 
     sdk: flutter
+  select_card: ^0.0.9
+  intl: ^0.18.0
 
 dev_dependencies: 
   flutter_lints: 2.0.1
